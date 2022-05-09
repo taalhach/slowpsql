@@ -15,15 +15,17 @@ type DbSession struct {
 
 var Db DbSession
 
-func MustConnectDB(cfg *configs.DatabaseConfig) {
+func MustConnectDB(cfg *configs.DatabaseConfig) error {
 	db, err := gorm.Open(postgres.Open(cfg.ConnString()), &gorm.Config{})
 	if err != nil {
-		panic(fmt.Sprintf("Got error when connect database, the error is '%v'", err))
+		fmt.Printf("Got error when connect database, the error is '%v'", err)
+		return err
 	}
 
 	sqlDb, err := db.DB()
 	if err != nil {
-		panic(fmt.Sprintf("db connection configs failed, the error is '%v'", err))
+		fmt.Printf("db connection configs failed, the error is '%v'", err)
+		return err
 	}
 
 	sqlDb.SetMaxOpenConns(10)
@@ -38,6 +40,8 @@ func MustConnectDB(cfg *configs.DatabaseConfig) {
 	Db = DbSession{
 		db,
 	}
+
+	return nil
 }
 
 //EnablePgStatStatementsExt enable pg_stat_statements extension

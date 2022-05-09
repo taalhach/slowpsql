@@ -18,7 +18,6 @@ var (
 )
 
 func loadConfigs() (*configs.MainConfig, error) {
-
 	file := os.Getenv(envKey)
 	if file == "" {
 		fmt.Printf("Missing env variable: %v", envKey)
@@ -36,7 +35,9 @@ func loadConfigs() (*configs.MainConfig, error) {
 	}
 
 	// must make database connection or panic
-	database.MustConnectDB(MainConfigs.Database)
+	if err := database.MustConnectDB(MainConfigs.Database); err != nil {
+		return nil, err
+	}
 
 	return MainConfigs, err
 }
