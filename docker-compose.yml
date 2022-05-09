@@ -1,0 +1,22 @@
+version: "3.4"
+
+services:
+  postgres:
+    image: postgres:12.7-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+
+  server:
+    image: server
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres
