@@ -11,9 +11,9 @@ type BasicResponse struct {
 type BasicList struct {
 	Limit     int      `json:"limit"`
 	Page      int      `json:"page"`
+	SortBy    string   `json:"sortby"`
+	SortOrder string   `json:"sortorder"`
 	Filters   []string `json:"filters"`
-	SortBy    string   `json:"sort_by"`
-	SortOrder string   `json:"sort_order"`
 }
 
 func (bl *BasicList) AttachDefaults() {
