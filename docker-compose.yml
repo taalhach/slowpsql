@@ -4,6 +4,7 @@ services:
   postgres:
     image: postgres:12.7-alpine
     restart: always
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
